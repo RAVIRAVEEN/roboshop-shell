@@ -40,7 +40,7 @@ dnf module enable redis:remi-6.2 -y &>> $LOGFILE
 validate $? "enable redis "
 
 
-sed -i 's/127.0.0.1/0.0.0.0/g'  to  /etc/redis/redis.conf  &>> $LOGFILE
+sed -i 's/127.0.0.1/0.0.0.0/g'   /etc/redis/redis.conf  &>> $LOGFILE
 
 validate $? "remote access "
 
