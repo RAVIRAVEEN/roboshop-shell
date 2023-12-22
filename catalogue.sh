@@ -30,47 +30,47 @@ else
     echo -e  " you are root user"
 fi
 
-dnf module disable nodejs -y 
+dnf module disable nodejs -y  &>> $LOGFILE
 
-validate $? "disable nodejs"   &>> $LOGFILE
+validate $? "disable nodejs"  
 
-dnf module enable nodejs:18 -y  
+dnf module enable nodejs:18 -y  &>> $LOGFILE
 
-validate $? "enable nodejs:18"  &>> $LOGFILE
+validate $? "enable nodejs:18"  
 
-dnf install nodejs -y     
+dnf install nodejs -y     &>> $LOGFILE
 
-validate $? "install node-js"   &>> $LOGFILE
+validate $? "install node-js"   
 
-useradd roboshop 
+useradd roboshop   &>> $LOGFILE
 
-validate $? "create user"   &>> $LOGFILE
+validate $? "create roboshop"   
 
-mkdir /app       
+mkdir /app       &>> $LOGFILE
 
-validate $? "create directory"   &>> $LOGFILE
+validate $? "create directory"   
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip   &>> $LOGFILE
 
-validate $? "download catalogue application" &>> $LOGFILE
+validate $? "download catalogue application" 
 
-cd /app 
+cd /app   &>> $LOGFILE
 
 
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip  &>> $LOGFILE
 
-validate $? "unzip catalogue application"  &>> $LOGFILE
+validate $? "unzip catalogue application"  
 
 cd /app
 
-npm install 
+npm install  &>> $LOGFILE
 
-validate $? "installing dependcies"  &>> $LOGFILE
+validate $? "installing dependcies"  
 
 
 cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service   &>> $LOGFILE
 
-validate $? "copying the catalogue service file" &>> $LOGFILE
+validate $? "copying the catalogue service file" 
 
 
 systemctl daemon-reload   &>> $LOGFILE
@@ -88,15 +88,15 @@ validate $? "starting catalogue"
 
 cp /home/centos/roboshop-shell/mongo.repo  /etc/yum.repos.d/mongo.repo    &>> $LOGFILE
 
-validate $? "copying mongodb file" &>> $LOGFILE
+validate $? "copying mongodb file"
 
 
 
 
-dnf install mongodb-org-shell -y      
+dnf install mongodb-org-shell -y      &>> $LOGFILE
 
 validate $? "installing mongodb-org-shell "
 
-mongo --host $MONGO_DB_HOST </app/schema/catalogue.js
+mongo --host $MONGO_DB_HOST </app/schema/catalogue.js   &>> $LOGFILE
 
 validate $? "loading catalogue into mongodb "
