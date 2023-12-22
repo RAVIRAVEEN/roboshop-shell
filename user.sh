@@ -68,7 +68,6 @@ validate $? "download user application"
 
 cd /app   &>> $LOGFILE
 
-
 unzip -o  /tmp/user.zip  &>> $LOGFILE
 
 validate $? "unzip user application"  
@@ -86,7 +85,7 @@ validate $? "copying the user service file"
 
 systemctl daemon-reload   &>> $LOGFILE
 
-validate $? "daaemon-reload"  
+validate $? "user daemon-reload"  
 
 systemctl enable  user   &>> $LOGFILE
 
@@ -106,4 +105,4 @@ validate $? "installing mongodb-org-shell "
 
 mongo --host $MONGODB_HOST </app/schema/user.js  &>> $LOGFILE
 
-validate $? "loading catalogue into mongodb "
+validate $? "loading user data  into mongodb "
