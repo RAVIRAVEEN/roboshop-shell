@@ -39,7 +39,7 @@ dnf module enable redis:remi-6.2 -y   &>> $LOGFILE
 
 validate $? "enable redis "
 
-dnf install redis -y
+dnf install redis -y    &>> $LOGFILE
 
 validate $? "redis install"
 
