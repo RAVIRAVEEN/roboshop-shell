@@ -62,7 +62,7 @@ mkdir -p /app       &>> $LOGFILE
 
 validate $? "create directory"   
 
-curl -o curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip   &>> $LOGFILE
+curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip  &>> $LOGFILE
 
 validate $? "download user application" 
 
