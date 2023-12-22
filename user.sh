@@ -69,7 +69,7 @@ validate $? "download user application"
 cd /app   &>> $LOGFILE
 
 
-unzip -o unzip /tmp/user.zip  &>> $LOGFILE
+unzip -o  /tmp/user.zip  &>> $LOGFILE
 
 validate $? "unzip user application"  
 
