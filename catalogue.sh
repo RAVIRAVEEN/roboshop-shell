@@ -30,25 +30,25 @@ else
     echo -e  " you are root user"
 fi
 
-dnf module disable nodejs -y  &>> $LOGFILE
+dnf module disable nodejs -y 
 
-validate $? "disable nodejs"  
+validate $? "disable nodejs"   &>> $LOGFILE
 
-dnf module enable nodejs:18 -y  &>> $LOGFILE
+dnf module enable nodejs:18 -y  
 
-validate $? "enable nodejs:18"  
+validate $? "enable nodejs:18"  &>> $LOGFILE
 
-dnf install nodejs -y     &>> $LOGFILE
+dnf install nodejs -y     
 
-validate $? "install node-js" 
+validate $? "install node-js"   &>> $LOGFILE
 
-useradd roboshop     &>> $LOGFILE
+useradd   roboshop    
 
-validate $? "create user"  
+validate $? "create user"   &>> $LOGFILE
 
-mkdir /app        &>> $LOGFILE
+mkdir /app       
 
-validate $? "create directory" 
+validate $? "create directory"   &>> $LOGFILE
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
 
