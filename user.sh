@@ -104,6 +104,6 @@ dnf install mongodb-org-shell -y      &>> $LOGFILE
 
 validate $? "installing mongodb-org-shell "
 
-mongo --host MONGODB_HOST </app/schema/user.js  &>> $LOGFILE
+mongo --host $MONGODB_HOST </app/schema/user.js  &>> $LOGFILE
 
 validate $? "loading catalogue into mongodb "
