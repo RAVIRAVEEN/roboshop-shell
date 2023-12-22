@@ -42,10 +42,10 @@ systemctl enable mongod   &>> $LOGFILE
 
 validate $? "enable mongod "
 
-sed -e 's/127.0.0.1 to 0.0.0.0/g'  /etc/mongod.conf   &>> $LOGFILE
+sed -e 's/127.0.0.1/0.0.0.0/g'  /etc/mongod.conf   &>> $LOGFILE
 
 validate $? "remote access to mongodb "
 
 systemctl restart mongod    &>> $LOGFILE
 
-validate $? "restsrting mongod" 
+validate $? "restartng mongod" 
