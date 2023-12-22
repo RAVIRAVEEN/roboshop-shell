@@ -5,7 +5,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGODB_HOST="mongodb.devopsrank.online"
+
 
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
@@ -61,10 +61,9 @@ validate $? "unzip "
 
 cp /home/centos/roboshop-shell/roboshop.conf  /etc/nginx/default.d/roboshop.conf   &>> $LOGFILE
 
-validate $? "uopying roboshopconf file "
+validate $? "copying roboshopconf file "
 
 systemctl restart nginx 
-
 
 validate $? "restarting nginx "
 
