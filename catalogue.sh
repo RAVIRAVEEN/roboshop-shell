@@ -5,7 +5,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGO_DB_HOST="mongodb.devopsrank.online"
+MONGODB_HOST="mongodb.devopsrank.online"
 
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
@@ -105,6 +105,6 @@ dnf install mongodb-org-shell -y      &>> $LOGFILE
 
 validate $? "installing mongodb-org-shell "
 
-mongo --host $MONGO_DB_HOST </app/schema/catalogue.js   &>> $LOGFILE
+mongo --host $MONGODB_HOST </app/schema/catalogue.js   &>> $LOGFILE
 
 validate $? "loading catalogue into mongodb "
