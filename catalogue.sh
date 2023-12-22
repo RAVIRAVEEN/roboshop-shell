@@ -48,7 +48,7 @@ then
    useradd roboshop   
    validate $? "roboshop user creation"
 else 
-echo e "roboshop user already exist $Y skipping $N"
+echo -e "roboshop user already exist $Y skipping $N"
 fi
 
 
