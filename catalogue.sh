@@ -65,7 +65,7 @@ validate $? "download catalogue application"
 cd /app   &>> $LOGFILE
 
 
-unzip /tmp/catalogue.zip  &>> $LOGFILE
+unzip -o /tmp/catalogue.zip  &>> $LOGFILE
 
 validate $? "unzip catalogue application"  
 
