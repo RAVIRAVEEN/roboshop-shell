@@ -36,11 +36,13 @@ dnf install maven -y       &>> $LOGFILE
 validate $? "install maven"
 
 id roboshop 
+
 if[ $? -ne 0 ]
 then 
 useradd roboshop    &>> $LOGFILE
 else
 echo -e "user already exist  $Y skipping $N"
+fi
 
 validate $? "user creation"
 
