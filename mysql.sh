@@ -1,61 +1,55 @@
 #!/bin/bash
+
 ID=$(id -u)
-TIMESTAMP=$(date +%F-%H-%M-%S)
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+MONGDB_HOST=mongodb.daws76s.online
 
-
+TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script started and exicuted at $TIMESTAMP" &>> $LOGFILE
+echo "script stareted executing at $TIMESTAMP" &>> $LOGFILE
 
-validate(){
-     if [ $1 -ne 0 ]
+VALIDATE(){
+    if [ $1 -ne 0 ]
     then
-     echo  -e  "Error :: $2......  $R FAILED $N"
-     exit 1
+        echo -e "$2 ... $R FAILED $N"
+        exit 1
     else
-     echo  -e  "$2..... $G success $N"
+        echo -e "$2 ... $G SUCCESS $N"
     fi
 }
 
-
 if [ $ID -ne 0 ]
 then
-    echo -e " Error:: $R stop the script and run with root access $N"
-    exit 1
+    echo -e "$R ERROR:: Please run this script with root access $N"
+    exit 1 # you can give other than 0
 else
-    echo -e  " you are root user"
-fi
+    echo "You are root user"
+fi # fi means reverse of if, indicating condition end
 
+dnf module disable mysql -y &>> $LOGFILE
 
-dnf module disable mysql -y   &>> $LOGFILE
+VALIDATE $? "Disable current MySQL version"
 
-validate $? " disabling mysql"
+cp mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
 
-cp mysql.repo   /etc/yum.repos.d/mysql.repo     &>> $LOGFILE
+VALIDATE $? "Copied MySQl repo"
 
-validate $? "copying mysql repo"
+dnf install mysql-community-server -y &>> $LOGFILE
 
-dnf install mysql-community-server -y  &>> $LOGFILE
+VALIDATE $? "Installing MySQL Server"
 
-validate $? "installing mysql"
+systemctl enable mysqld &>> $LOGFILE 
 
-systemctl enable mysqld  &>> $LOGFILE
+VALIDATE $? "Enabling MySQL Server"
 
-validate $? "enabling mysqld"
+systemctl start mysqld &>> $LOGFILE
 
-systemctl start mysqld   &>> $LOGFILE
+VALIDATE $? "Starting  MySQL Server" 
 
-validate $? "starting mysql"
+mysql_secure_installation --set-root-pass RoboShop@1 &>> $LOGFILE
 
-
-mysql_secure_installation --set-root-pass RoboShop@1  &>> $LOGFILE
-
-validate $? "mysql root password"
-
-mysql -uroot -pRoboShop@1  &>> $LOGFILE
-
-validate $? "setting mysql password"
+VALIDATE $? "Setting  MySQL root password"
