@@ -1,105 +1,93 @@
 #!/bin/bash
+
 ID=$(id -u)
-TIMESTAMP=$(date +%F-%H-%M-%S)
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-
+TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script started and exicuted at $TIMESTAMP" &>> $LOGFILE
+echo "script stareted executing at $TIMESTAMP" &>> $LOGFILE
 
-validate(){
-     if [ $1 -ne 0 ]
+VALIDATE(){
+    if [ $1 -ne 0 ]
     then
-     echo  -e  "Error :: $2......  $R FAILED $N"
-     exit 1
+        echo -e "$2 ... $R FAILED $N"
+        exit 1
     else
-     echo  -e  "$2..... $G success $N"
+        echo -e "$2 ... $G SUCCESS $N"
     fi
 }
 
-
 if [ $ID -ne 0 ]
 then
-    echo -e " Error:: $R stop the script and run with root access $N"
-    exit 1
+    echo -e "$R ERROR:: Please run this script with root access $N"
+    exit 1 # you can give other than 0
 else
-    echo -e  " you are root user"
-fi
+    echo "You are root user"
+fi # fi means reverse of if, indicating condition end
 
+dnf install maven -y &>> $LOGFILE
 
-dnf install maven -y       &>> $LOGFILE
-
-validate $? "install maven"
-
-id roboshop 
-
+id roboshop #if roboshop user does not exist, then it is failure
 if [ $? -ne 0 ]
-then 
-useradd roboshop 
-
-validate $?  "creating user" &>> $LOGFILE
-
+then
+    useradd roboshop
+    VALIDATE $? "roboshop user creation"
 else
-echo -e "user already exist  $Y skipping $N"
+    echo -e "roboshop user already exist $Y SKIPPING $N"
 fi
 
-validate $? "user creation"
+mkdir -p /app
 
-mkdir -p /app       &>> $LOGFILE
+VALIDATE $? "creating app directory"
 
-validate $? "creating directory"
+curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LOGFILE
 
-curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip    &>> $LOGFILE
-
-
-validate $? "downloading shipping"
-
-cd /app   &>> $LOGFILE
-
-unzip -o  /tmp/shipping.zip    &>> $LOGFILE
-
-validate $? "unzipping shipping"
+VALIDATE $? "Downloading shipping"
 
 cd /app
 
-mvn clean package    &>> $LOGFILE
+VALIDATE $? "moving to app directory"
 
-validate $? "installing dependencies"
+unzip -o /tmp/shipping.zip &>> $LOGFILE
 
-mv target/shipping-1.0.jar shipping.jar   &>> $LOGFILE
+VALIDATE $? "unzipping shipping"
 
-validate $? "moving shipping-1.0"
+mvn clean package &>> $LOGFILE
 
-cp /home/centos/roboshop-shell/shipping.service  /etc/systemd/system/shipping.service   &>> $LOGFILE
+VALIDATE $? "Installing dependencies"
 
-validate $? "copying shipping service"
+mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 
-systemctl daemon-reload    &>> $LOGFILE
+VALIDATE $? "renaming jar file"
 
-validate $? "reloading daemon"
+cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
-systemctl enable shipping    &>> $LOGFILE
+VALIDATE $? "copying shipping service"
 
-validate $? "enabling shipping"
+systemctl daemon-reload &>> $LOGFILE
 
-systemctl start shipping    &>> $LOGFILE
+VALIDATE $? "deamon reload"
 
-validate $? "start shipping"
+systemctl enable shipping  &>> $LOGFILE
 
-dnf install mysql -y   &>> $LOGFILE
+VALIDATE $? "enable shipping"
 
-validate $? "installing mysql"
+systemctl start shipping &>> $LOGFILE
 
+VALIDATE $? "start shipping"
 
-mysql -h mysql.devopsrank.online -uroot -pRoboShop@1 < /app/schema/shipping.sql    &>> $LOGFILE
+dnf install mysql -y &>> $LOGFILE
 
-validate $? "schema loading"
+VALIDATE $? "install MySQL client"
 
+mysql -h mysql.daws76s.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
 
-systemctl restart shipping    &>> $LOGFILE
+VALIDATE $? "loading shipping data"
 
-validate $? "restrtinng shipping"
+systemctl restart shipping &>> $LOGFILE
+
+VALIDATE $? "restart shipping"
