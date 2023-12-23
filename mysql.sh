@@ -33,25 +33,32 @@ fi
 
 dnf module disable mysql -y   &>> $LOGFILE
 
+validate $? " disabling mysql"
+
 cp mysql.repo   /etc/yum.repos.d/mysql.repo     
 
+validate $? "copying mysql repo"
 
 dnf install mysql-community-server -y  &>> $LOGFILE
 
+validate $? "installing mysql"
 
 systemctl enable mysqld  &>> $LOGFILE
 
+validate $? "enabling mysqld"
 
 systemctl start mysqld   &>> $LOGFILE
 
+validate $? "starting mysql"
 
 
 
-mysql_secure_installation --set-root-pass RoboShop@1
+
+mysql_secure_installation --set-root-pass RoboShop@1  &>> $LOGFILE
 
 
 
-mysql -uroot -pRoboShop@1
+mysql -uroot -pRoboShop@1  &>> $LOGFILE
 
 
 
