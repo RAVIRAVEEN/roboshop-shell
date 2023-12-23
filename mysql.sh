@@ -58,4 +58,4 @@ validate $? "mysql root password"
 
 mysql -uroot -pRoboShop@1  &>> $LOGFILE
 
-validate $? "root password"
+validate $? "setting mysql password"
