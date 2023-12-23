@@ -37,9 +37,12 @@ validate $? "install maven"
 
 id roboshop 
 
-if[ $? -ne 0 ]
+if [ $? -ne 0 ]
 then 
-useradd roboshop    &>> $LOGFILE
+useradd roboshop 
+
+validate $?  "creating user" &>> $LOGFILE
+
 else
 echo -e "user already exist  $Y skipping $N"
 fi
