@@ -35,7 +35,7 @@ dnf module disable mysql -y   &>> $LOGFILE
 
 validate $? " disabling mysql"
 
-cp mysql.repo   /etc/yum.repos.d/mysql.repo     
+cp mysql.repo   /etc/yum.repos.d/mysql.repo     &>> $LOGFILE
 
 validate $? "copying mysql repo"
 
