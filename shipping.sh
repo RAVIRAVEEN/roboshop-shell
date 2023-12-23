@@ -49,7 +49,7 @@ fi
 
 validate $? "user creation"
 
-mkdir /app       &>> $LOGFILE
+mkdir -p /app       &>> $LOGFILE
 
 validate $? "creating directory"
 
