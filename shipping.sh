@@ -76,7 +76,6 @@ validate $? "moving shipping-1.0"
 
 cp /home/centos/roboshop-shell/shipping.service  /etc/systemd/system/shipping.service   &>> $LOGFILE
 
-
 validate $? "copying shipping service"
 
 systemctl daemon-reload    &>> $LOGFILE
@@ -96,7 +95,7 @@ dnf install mysql -y   &>> $LOGFILE
 validate $? "installing mysql"
 
 
-mysql -h < mysql.devopsrank.online > -uroot -pRoboShop@1 < /app/schema/shipping.sql    &>> $LOGFILE
+mysql -h mysql.devopsrank.online -uroot -pRoboShop@1 < /app/schema/shipping.sql    &>> $LOGFILE
 
 validate $? "schema loading"
 
