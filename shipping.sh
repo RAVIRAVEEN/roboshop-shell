@@ -95,7 +95,7 @@ dnf install mysql -y   &>> $LOGFILE
 validate $? "installing mysql"
 
 
-mysql -h mysql.devopsrank.online -uroot -pRoboShop@1  /app/schema/shipping.sql    &>> $LOGFILE
+mysql -h mysql.devopsrank.online -uroot -pRoboShop@1 < /app/schema/shipping.sql    &>> $LOGFILE
 
 validate $? "schema loading"
 
